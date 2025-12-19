@@ -43,60 +43,73 @@ class WeightEvolutionChart extends StatelessWidget {
 
           // Gráfico simplificado
           SizedBox(
-            height: 150,
+            height: 140,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: historico.map((item) {
                 final normalizedHeight = range > 0
-                    ? ((item.peso - minPeso) / range) * 120 + 30
-                    : 75.0;
+                    ? ((item.peso - minPeso) / range) * 70 + 15
+                    : 50.0;
 
-                return Expanded(
+                return Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // Valor
-                        Text(
-                          item.peso.toStringAsFixed(1),
-                          style: const TextStyle(
-                            color: AppColors.primaryBlue,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-
-                        // Barra
-                        Container(
-                          height: normalizedHeight,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                                AppColors.primaryBlue,
-                                AppColors.primaryBlue.withValues(alpha: 0.5),
-                              ],
-                            ),
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(4),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxHeight: 140),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Valor
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              item.peso.toStringAsFixed(1),
+                              style: const TextStyle(
+                                color: AppColors.primaryBlue,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
+                          const SizedBox(height: 2),
 
-                        // Data
-                        Text(
-                          '${item.data.day}/${item.data.month}',
-                          style: TextStyle(
-                            color: AppColors.textSilver.withValues(alpha: 0.7),
-                            fontSize: 9,
+                          // Barra
+                          Container(
+                            height: normalizedHeight,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  AppColors.primaryBlue,
+                                  AppColors.primaryBlue.withValues(alpha: 0.5),
+                                ],
+                              ),
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(4),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 2),
+
+                          // Data
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              '${item.data.day}/${item.data.month}',
+                              style: TextStyle(
+                                color: AppColors.textSilver.withValues(
+                                  alpha: 0.7,
+                                ),
+                                fontSize: 8,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
