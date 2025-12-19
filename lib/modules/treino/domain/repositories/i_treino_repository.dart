@@ -1,7 +1,8 @@
 import '../entities/treino.dart';
+import '../entities/treino_semanal.dart';
 
-/// Interface do repositório de treinos
+/// Treino repository interface
 abstract class ITreinoRepository {
-  /// Busca o treino do dia especificado
-  Future<Treino> getTreinoDoDia(DateTime data);
+  Future<Treino> getTreinoDoDia();
+  Future<List<TreinoSemanal>> getTreinosSemana(DateTime dataInicio);
 }

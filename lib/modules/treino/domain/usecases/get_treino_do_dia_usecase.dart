@@ -8,7 +8,7 @@ class GetTreinoDoDiaUseCase {
   const GetTreinoDoDiaUseCase(this.repository);
 
   /// Executa o caso de uso
-  Future<Treino> call(DateTime data) async {
-    return await repository.getTreinoDoDia(data);
+  Future<Treino> call() async {
+    return await repository.getTreinoDoDia();
   }
 }

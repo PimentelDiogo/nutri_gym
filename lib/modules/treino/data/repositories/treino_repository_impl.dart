@@ -1,4 +1,5 @@
 import '../../domain/entities/treino.dart';
+import '../../domain/entities/treino_semanal.dart';
 import '../../domain/repositories/i_treino_repository.dart';
 import '../datasources/treino_datasource.dart';
 
@@ -9,12 +10,21 @@ class TreinoRepositoryImpl implements ITreinoRepository {
   const TreinoRepositoryImpl(this.dataSource);
 
   @override
-  Future<Treino> getTreinoDoDia(DateTime data) async {
+  Future<Treino> getTreinoDoDia() async {
     try {
-      final treinoModel = await dataSource.getTreinoDoDia(data);
+      final treinoModel = await dataSource.getTreinoDoDia();
       return treinoModel.toEntity();
     } catch (e) {
-      // Em um caso real, aqui você converteria exceptions para failures
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<TreinoSemanal>> getTreinosSemana(DateTime dataInicio) async {
+    try {
+      final treinosModel = await dataSource.getTreinosSemana(dataInicio);
+      return treinosModel.map((model) => model.toEntity()).toList();
+    } catch (e) {
       rethrow;
     }
   }

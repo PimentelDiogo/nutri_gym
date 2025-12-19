@@ -1,22 +1,18 @@
+import '../../../../core/network/http_client.dart';
 import '../models/dashboard_summary_model.dart';
 
-/// DataSource local de home (simulação de API)
+/// DataSource de home consumindo API
 class HomeLocalDataSource {
-  /// Simula busca de resumo do dashboard na API
+  final HttpClient httpClient;
+
+  HomeLocalDataSource(this.httpClient);
+
+  /// Busca resumo do dashboard na API
   Future<DashboardSummaryModel> getSummary() async {
-    // Simula delay de rede
-    await Future.delayed(const Duration(seconds: 1));
+    final response = await httpClient.get('/api/v1/dashboard/summary');
 
-    // Dados mock do dashboard
-    final mockJson = {
-      'pesoAtual': 75.0,
-      'pesoMeta': 70.0,
-      'caloriasConsumidas': 1850,
-      'caloriasMeta': 2500,
-      'proximoTreinoTitulo': 'Superiores - Foco Ombro',
-      'proximoTreinoTipo': 'FORCA',
-    };
-
-    return DashboardSummaryModel.fromJson(mockJson);
+    // API retorna {statusCode: 200, data: {...}}
+    final data = response['data'] as Map<String, dynamic>;
+    return DashboardSummaryModel.fromJson(data);
   }
 }
