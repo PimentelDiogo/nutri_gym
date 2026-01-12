@@ -16,16 +16,20 @@ class TreinoController extends GetxController {
 
   // Estado reativo
   final _isLoading = false.obs;
+  final _isLoadingExercicios = false.obs;
   final Rx<Treino?> _treino = Rx<Treino?>(null);
   final RxList<TreinoSemanal> semanaAtual = <TreinoSemanal>[].obs;
   final _diaSelecionado = 0.obs;
   final _error = ''.obs;
+  final _mostrarExercicios = false.obs;
 
   // Getters
   bool get isLoading => _isLoading.value;
+  bool get isLoadingExercicios => _isLoadingExercicios.value;
   Treino? get treino => _treino.value;
   String get error => _error.value;
   int get diaSelecionado => _diaSelecionado.value;
+  bool get mostrarExercicios => _mostrarExercicios.value;
   TreinoSemanal? get treinoSelecionado =>
       semanaAtual.isNotEmpty ? semanaAtual[_diaSelecionado.value] : null;
 
@@ -51,12 +55,16 @@ class TreinoController extends GetxController {
 
       // Seleciona o dia atual se estiver na semana
       final hoje = DateTime.now();
-      if (hoje.isAfter(segundaFeira) &&
+      if (!hoje.isBefore(segundaFeira) &&
           hoje.isBefore(segundaFeira.add(const Duration(days: 7)))) {
         _diaSelecionado.value = hoje.weekday - 1;
       } else {
         _diaSelecionado.value = 0;
       }
+
+      // Reseta o estado de exercícios
+      _mostrarExercicios.value = false;
+      _treino.value = null;
     } catch (e) {
       _error.value = 'Erro ao carregar semana: $e';
     } finally {
@@ -68,6 +76,22 @@ class TreinoController extends GetxController {
   void selecionarDia(int index) {
     if (index >= 0 && index < semanaAtual.length) {
       _diaSelecionado.value = index;
+      // Reseta o estado de exercícios ao mudar de dia
+      _mostrarExercicios.value = false;
+      _treino.value = null;
+    }
+  }
+
+  /// Toggle para mostrar/ocultar exercícios
+  Future<void> toggleExercicios() async {
+    if (_mostrarExercicios.value) {
+      _mostrarExercicios.value = false;
+    } else {
+      // Se não tem os exercícios carregados, carrega
+      if (_treino.value == null) {
+        await carregarTreinoDoDia();
+      }
+      _mostrarExercicios.value = true;
     }
   }
 
@@ -87,18 +111,22 @@ class TreinoController extends GetxController {
     }
   }
 
-  /// Carrega o treino do dia (mantido para compatibilidade)
+  /// Carrega o treino do dia selecionado
   Future<void> carregarTreinoDoDia() async {
     try {
-      _isLoading.value = true;
+      _isLoadingExercicios.value = true;
       _error.value = '';
 
-      final treinoCarregado = await getTreinoDoDiaUseCase();
+      // Usa a data do treino selecionado se disponível
+      final dataSelecionada = treinoSelecionado?.data;
+      final treinoCarregado = await getTreinoDoDiaUseCase(
+        data: dataSelecionada,
+      );
       _treino.value = treinoCarregado;
     } catch (e) {
       _error.value = 'Erro ao carregar treino: $e';
     } finally {
-      _isLoading.value = false;
+      _isLoadingExercicios.value = false;
     }
   }
 

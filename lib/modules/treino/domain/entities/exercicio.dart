@@ -5,7 +5,8 @@ enum TipoTreino { forca, aerobico }
 class Exercicio {
   final String nome;
   final int series;
-  final int repeticoes;
+  final String
+  repeticoes; // Alterado para String para suportar formatos como "10-12", "até a falha"
   final String? urlVideo;
 
   const Exercicio({

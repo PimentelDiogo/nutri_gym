@@ -64,7 +64,7 @@ class ExerciseCard extends StatelessWidget {
 
                   // Séries e repetições
                   Text(
-                    '${exercicio.series} séries × ${exercicio.repeticoes} reps',
+                    '${exercicio.series} séries × ${exercicio.repeticoes}',
                     style: const TextStyle(
                       color: AppColors.textSilver,
                       fontSize: 14,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/routes/app_routes.dart';
+import '../../../../app/main_shell.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/calorie_bar_widget.dart';
@@ -133,7 +133,11 @@ class HomePage extends GetView<HomeController> {
                   NextWorkoutCard(
                     titulo: summary.proximoTreinoTitulo,
                     tipo: summary.proximoTreinoTipo,
-                    onTap: () => Get.toNamed(Routes.treino),
+                    onTap: () {
+                      // Navega para a aba de Treino (índice 1)
+                      final mainController = Get.find<MainShellController>();
+                      mainController.changePage(1);
+                    },
                   ),
                   const SizedBox(height: 20),
                 ],

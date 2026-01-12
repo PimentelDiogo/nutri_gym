@@ -14,7 +14,7 @@ class ExercicioModel extends Exercicio {
     return ExercicioModel(
       nome: json['nome'] as String,
       series: json['series'] as int,
-      repeticoes: json['repeticoes'] as int,
+      repeticoes: json['repeticoes'].toString(),
       urlVideo: json['urlVideo'] as String?,
     );
   }

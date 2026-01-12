@@ -10,9 +10,9 @@ class TreinoRepositoryImpl implements ITreinoRepository {
   const TreinoRepositoryImpl(this.dataSource);
 
   @override
-  Future<Treino> getTreinoDoDia() async {
+  Future<Treino> getTreinoDoDia({DateTime? data}) async {
     try {
-      final treinoModel = await dataSource.getTreinoDoDia();
+      final treinoModel = await dataSource.getTreinoDoDia(data: data);
       return treinoModel.toEntity();
     } catch (e) {
       rethrow;

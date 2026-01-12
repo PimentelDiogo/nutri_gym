@@ -16,93 +16,141 @@ class DietaLocalDataSource {
       return _refeicoes;
     }
 
-    // Dados mock do plano nutricional
+    // Dados mock do plano nutricional - Dieta Lucas Moreno
     final mockRefeicoes = [
       {
         'id': '1',
-        'nome': 'Café da Manhã',
+        'nome': 'Refeição 1 - Café da Manhã',
         'horario': '07:00',
         'realizado': false,
         'alimentos': [
           {
-            'nome': 'Ovos Mexidos',
-            'calorias': 180.0,
-            'proteina': 13.0,
-            'carboidrato': 2.0,
-            'gordura': 14.0,
-            'quantidade': 100.0,
-          },
-          {
-            'nome': 'Café com Leite',
-            'calorias': 80.0,
+            'nome': 'Pão Francês',
+            'calorias': 150.0,
             'proteina': 4.0,
-            'carboidrato': 8.0,
-            'gordura': 3.0,
-            'quantidade': 200.0,
+            'carboidrato': 30.0,
+            'gordura': 1.0,
+            'quantidade': 1.0, // 1 unidade
           },
           {
-            'nome': 'Pão Integral',
-            'calorias': 140.0,
-            'proteina': 5.0,
-            'carboidrato': 25.0,
-            'gordura': 2.0,
-            'quantidade': 50.0,
+            'nome': 'Ovo de Galinha',
+            'calorias': 156.0,
+            'proteina': 12.0,
+            'carboidrato': 1.0,
+            'gordura': 11.0,
+            'quantidade': 2.0, // 2 unidades
+          },
+          {
+            'nome': 'Queijo de Coalho',
+            'calorias': 105.0,
+            'proteina': 7.0,
+            'carboidrato': 1.0,
+            'gordura': 8.0,
+            'quantidade': 30.0, // 30g
           },
         ],
       },
       {
         'id': '2',
-        'nome': 'Almoço',
-        'horario': '12:30',
+        'nome': 'Refeição 2 - Almoço',
+        'horario': '12:00',
         'realizado': false,
         'alimentos': [
           {
-            'nome': 'Peito de Frango Grelhado',
-            'calorias': 165.0,
-            'proteina': 31.0,
-            'carboidrato': 0.0,
-            'gordura': 3.6,
-            'quantidade': 100.0,
-          },
-          {
-            'nome': 'Arroz Integral',
-            'calorias': 130.0,
-            'proteina': 2.7,
-            'carboidrato': 28.0,
-            'gordura': 1.0,
-            'quantidade': 100.0,
-          },
-          {
-            'nome': 'Salada Verde',
+            'nome': 'Salada Crua',
             'calorias': 25.0,
             'proteina': 2.0,
             'carboidrato': 5.0,
             'gordura': 0.3,
-            'quantidade': 150.0,
+            'quantidade': 150.0, // à vontade
+          },
+          {
+            'nome': 'Legumes Cozidos (brócolis, cenoura, beterraba)',
+            'calorias': 50.0,
+            'proteina': 3.0,
+            'carboidrato': 10.0,
+            'gordura': 0.5,
+            'quantidade': 120.0, // 120g
+          },
+          {
+            'nome': 'Arroz Branco Cozido',
+            'calorias': 104.0,
+            'proteina': 2.0,
+            'carboidrato': 23.0,
+            'gordura': 0.2,
+            'quantidade': 80.0, // 80g
+          },
+          {
+            'nome': 'Feijão Cozido',
+            'calorias': 96.0,
+            'proteina': 6.0,
+            'carboidrato': 17.0,
+            'gordura': 0.5,
+            'quantidade': 80.0, // 80g
+          },
+          {
+            'nome': 'Filé de Frango, Carne Bovina ou Peixe',
+            'calorias': 297.0,
+            'proteina': 56.0,
+            'carboidrato': 0.0,
+            'gordura': 6.5,
+            'quantidade': 180.0, // 180g
           },
         ],
       },
       {
         'id': '3',
-        'nome': 'Jantar',
+        'nome': 'Refeição 3 - Lanche',
+        'horario': '15:00',
+        'realizado': false,
+        'alimentos': [
+          {
+            'nome': 'Whey Protein',
+            'calorias': 120.0,
+            'proteina': 24.0,
+            'carboidrato': 3.0,
+            'gordura': 1.5,
+            'quantidade': 30.0, // 30g
+          },
+          {
+            'nome': 'Aveia em Flocos',
+            'calorias': 76.0,
+            'proteina': 2.6,
+            'carboidrato': 13.0,
+            'gordura': 1.4,
+            'quantidade': 20.0, // 20g
+          },
+          {
+            'nome': 'Banana',
+            'calorias': 72.0,
+            'proteina': 1.0,
+            'carboidrato': 19.0,
+            'gordura': 0.3,
+            'quantidade': 80.0, // 1 unidade (80g)
+          },
+        ],
+      },
+      {
+        'id': '4',
+        'nome': 'Refeição 4 - Jantar',
         'horario': '19:00',
         'realizado': false,
         'alimentos': [
           {
-            'nome': 'Sopa de Legumes',
-            'calorias': 120.0,
-            'proteina': 4.0,
-            'carboidrato': 20.0,
-            'gordura': 2.5,
-            'quantidade': 300.0,
+            'nome': 'Cuscuz de Milho Cozido',
+            'calorias': 112.0,
+            'proteina': 2.5,
+            'carboidrato': 25.0,
+            'gordura': 0.3,
+            'quantidade': 100.0, // 100g
           },
           {
-            'nome': 'Pão de Forma Integral',
-            'calorias': 70.0,
-            'proteina': 3.0,
-            'carboidrato': 12.0,
-            'gordura': 1.0,
-            'quantidade': 30.0,
+            'nome': 'Filé de Frango ou Carne',
+            'calorias': 297.0,
+            'proteina': 56.0,
+            'carboidrato': 0.0,
+            'gordura': 6.5,
+            'quantidade': 180.0, // 180g
           },
         ],
       },

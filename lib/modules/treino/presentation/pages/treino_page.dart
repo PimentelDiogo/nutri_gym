@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../controllers/treino_controller.dart';
 import '../widgets/week_calendar_widget.dart';
+import '../widgets/exercise_card.dart';
 
 /// Treino page for workout management
 class TreinoPage extends GetView<TreinoController> {
@@ -108,47 +109,160 @@ class TreinoPage extends GetView<TreinoController> {
       );
     }
 
-    return Card(
-      color: AppColors.cardDark,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              treinoSelecionado.titulo ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Card do treino clicável
+        GestureDetector(
+          onTap: () {
+            controller.toggleExercicios();
+          },
+          child: Card(
+            color: AppColors.cardDark,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          treinoSelecionado.titulo ?? '',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Obx(
+                        () => Icon(
+                          controller.mostrarExercicios
+                              ? Icons.keyboard_arrow_up
+                              : Icons.keyboard_arrow_down,
+                          color: AppColors.textSilver,
+                          size: 28,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: treinoSelecionado.tipo == 'FORCA'
+                          ? AppColors.primaryBlue
+                          : Colors.cyan,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      treinoSelecionado.tipo ?? '',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.touch_app,
+                        color: AppColors.textSilver.withValues(alpha: 0.7),
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        controller.mostrarExercicios
+                            ? 'Toque para ocultar exercícios'
+                            : 'Toque para ver os exercícios detalhados',
+                        style: const TextStyle(
+                          color: AppColors.textSilver,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: treinoSelecionado.tipo == 'FORCA'
-                    ? AppColors.primaryBlue
-                    : Colors.cyan,
-                borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+
+        // Lista de exercícios (expandível)
+        Obx(() {
+          if (!controller.mostrarExercicios) {
+            return const SizedBox.shrink();
+          }
+
+          if (controller.isLoadingExercicios) {
+            return const Padding(
+              padding: EdgeInsets.all(32),
+              child: Center(
+                child: CircularProgressIndicator(color: AppColors.primaryBlue),
               ),
-              child: Text(
-                treinoSelecionado.tipo ?? '',
-                style: const TextStyle(
+            );
+          }
+
+          final treino = controller.treino;
+          if (treino == null || treino.exercicios.isEmpty) {
+            return Card(
+              color: AppColors.cardDark,
+              margin: const EdgeInsets.only(top: 8),
+              child: const Padding(
+                padding: EdgeInsets.all(20),
+                child: Center(
+                  child: Text(
+                    'Nenhum exercício encontrado',
+                    style: TextStyle(color: AppColors.textSilver),
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              const Text(
+                'Exercícios',
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 12,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Toque no dia para ver os exercícios detalhados',
-              style: TextStyle(color: AppColors.textSilver, fontSize: 14),
-            ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 12),
+              ...treino.exercicios.asMap().entries.map((entry) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ExerciseCard(
+                    exercicio: entry.value,
+                    numero: entry.key + 1,
+                    onVideoTap: () {
+                      // TODO: Implementar reprodução de vídeo
+                      Get.snackbar(
+                        'Vídeo',
+                        'Em breve: ${entry.value.nome}',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: AppColors.cardDark,
+                        colorText: Colors.white,
+                      );
+                    },
+                  ),
+                );
+              }),
+            ],
+          );
+        }),
+      ],
     );
   }
 }

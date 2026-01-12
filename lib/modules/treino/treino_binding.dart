@@ -33,6 +33,7 @@ class TreinoBinding extends Bindings {
         getTreinoDoDiaUseCase: Get.find<GetTreinoDoDiaUseCase>(),
         getTreinoSemanalUseCase: Get.find<GetTreinoSemanalUseCase>(),
       ),
+      fenix: true, // Mantém o controller entre navegações
     );
   }
 }

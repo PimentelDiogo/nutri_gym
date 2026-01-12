@@ -41,25 +41,21 @@ class WeekCalendarWidget extends GetView<TreinoController> {
           const SizedBox(height: 12),
 
           // Dias da semana
-          SizedBox(
-            height: 90,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.semanaAtual.length,
-              itemBuilder: (context, index) {
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(controller.semanaAtual.length, (index) {
                 final treino = controller.semanaAtual[index];
+                final isSelected = controller.diaSelecionado == index;
                 return Padding(
-                  padding: EdgeInsets.only(
-                    left: index == 0 ? 0 : 8,
-                    right: index == controller.semanaAtual.length - 1 ? 0 : 0,
-                  ),
+                  padding: EdgeInsets.only(left: index == 0 ? 0 : 8),
                   child: DayWorkoutCard(
                     treino: treino,
-                    isSelected: controller.diaSelecionado == index,
+                    isSelected: isSelected,
                     onTap: () => controller.selecionarDia(index),
                   ),
                 );
-              },
+              }),
             ),
           ),
         ],
