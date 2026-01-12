@@ -4,4 +4,4 @@
 .fvm/
 
 # FVM Version Cache
-.fvm/
+.fvm/build/
