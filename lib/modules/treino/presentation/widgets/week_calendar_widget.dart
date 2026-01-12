@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../controllers/treino_controller.dart';
 import 'day_workout_card.dart';
 
